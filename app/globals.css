@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
+/* 
+On my CSS design, I used a mobile-first approach,
+recommended by the creators of TailwindCSS themselves.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #408A71;
+    --foreground: #ffffff;
+    --color-dark-100: #091413;
+    --color-green-100: #B0E4CC;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+    /* Background and Foreground */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    /* Colors */
+    --color-dark-100: var(--color-dark-100);
+    --color-green-100: var(--color-green-100);
+
+    /* Fonts */
+    --font-alegreya: var(--font-alegreya);
+    --font-roboto: var(--font-roboto);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@layer base {
+    body {
+        @apply bg-background text-foreground font-alegreya;
+    }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+    .navbar-primary {
+        @apply w-full sticky top-0 z-50 bg-dark-100 py-4 px-8 flex items-center justify-between h-20; 
+    }
+
+    .nav-links {
+        /* On mobile, use top-20 to match the h-20 of the navbar */
+        @apply fixed top-20 left-0 w-full h-[calc(100vh-80px)] bg-dark-100 
+               flex flex-col items-center justify-start gap-12 pt-20
+               transition-all duration-500 ease-in-out
+               translate-x-full;
+
+        &.open {
+            @apply translate-x-0;
+        }
+
+        @apply lg:static lg:h-auto lg:w-auto lg:flex-row lg:p-0 
+               lg:translate-x-0 lg:opacity-100 lg:pointer-events-auto;
+    }
+
+    .nav-item {
+        @apply text-foreground lg:text-xl hover:text-green-100 transition-colors duration-300;
+    }
+
+    .hamburger-btn {
+        @apply lg:hidden text-foreground transition-colors cursor-pointer flex items-center justify-center;
+    }
 }
